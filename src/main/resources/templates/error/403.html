@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+
+    <title>Ошибка</title>
+    <style>
+        .red_color {
+            color: red;
+        }
+    </style>
+
+</head>
+<body>
+
+<h1 class="red_color">Отказано в доступе</h1>
+<br><br>
+<h2>Пользователь: <span sec:authentication="name"></span> </h2>
+<hr/>
+<a th:href="@{'/'}">Перейти на главную страницу</a>
+
+</body>
+</html>

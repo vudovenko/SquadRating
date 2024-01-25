@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Приветственная страница</title>
+</head>
+<body>
+<div sec:authorize="isAuthenticated()">
+    <a th:href="@{/mainPage}">Войти на главную страницу</a>
+    <a th:href="@{/logout}">Выйти</a>
+</div>
+<div sec:authorize="!isAuthenticated()">
+    <a th:href="@{/login}">Войти</a>
+    <a th:href="@{/registration}">Зарегистрироваться</a>
+</div>
+</body>
+</html>

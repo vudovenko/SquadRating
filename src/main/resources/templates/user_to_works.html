@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Отработки</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%
+        }
+
+        th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<table>
+    <tbody>
+    <tr>
+        <td>
+            <table>
+                <caption>Посещение социальных отработок</caption>
+                <div sec:authorize="hasRole('ROLE_ADMINISTRATION_STATE')">
+                    Добавить <a th:href="@{/userToSocialWork/create}">новое посещение </a>
+                </div>
+                <thead>
+                <tr th:replace="~{fragments/user_to_works_table_head_fragment :: userToWorksTableHeadFragment}">
+                </tr>
+                </thead>
+                <tbody>
+                <tr sec:authorize="hasRole('ROLE_ADMINISTRATION_STATE')"
+                    th:each="work : ${userToSocialWork}">
+                    <td th:replace="~{fragments/user_to_works_data_fragment :: userToWorksDataFragment(${work})}"></td>
+                    <td><a th:href="@{/userToSocialWork/{id}/update(id=${work.id})}">Edit</a></td>
+                    <td><a th:href="@{/userToSocialWork/{id}/delete(id=${work.id})}">Delete</a></td>
+                </tr>
+                <div sec:authorize="hasRole('ROLE_BASIC_STATE')
+                            && !hasRole('ROLE_ADMINISTRATION_STATE')"
+                     th:with="username=${#authentication.name}">
+                    <tr th:each="work : ${userToSocialWork}"
+                        th:if="${work.user.securityUser.id == securityUserService
+                    .getSecurityUser(username).id}">
+                        <td th:replace="~{fragments/user_to_works_data_fragment :: userToWorksDataFragment(${work})}"></td>
+                    </tr>
+                </div>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table>
+                <caption>Посещение разных отработок</caption>
+                <div sec:authorize="hasRole('ROLE_ADMINISTRATION_STATE')">
+                    Добавить <a th:href="@{/userToHardWork/create}">новое посещение </a>
+                </div>
+                <thead>
+                <tr th:replace="~{fragments/user_to_works_table_head_fragment :: userToWorksTableHeadFragment}">
+                </thead>
+                <tbody>
+                <tr sec:authorize="hasRole('ROLE_ADMINISTRATION_STATE')"
+                    th:each="work : ${userToHardWork}">
+                    <td th:replace="~{fragments/user_to_works_data_fragment :: userToWorksDataFragment(${work})}"></td>
+                    <td><a th:href="@{/userToHardWork/{id}/update(id=${work.id})}">Edit</a></td>
+                    <td><a th:href="@{/userToHardWork/{id}/delete(id=${work.id})}">Delete</a></td>
+                </tr>
+                <div sec:authorize="hasRole('ROLE_BASIC_STATE')
+                            && !hasRole('ROLE_ADMINISTRATION_STATE')"
+                     th:with="username=${#authentication.name}">
+                    <tr th:each="work : ${userToHardWork}"
+                        th:if="${work.user.securityUser.id == securityUserService
+                    .getSecurityUser(username).id}">
+                        <td th:replace="~{fragments/user_to_works_data_fragment :: userToWorksDataFragment(${work})}"></td>
+                    </tr>
+                </div>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+<a th:href="@{/mainPage}">Вернуться на главную страницу.</a>
+</html>
